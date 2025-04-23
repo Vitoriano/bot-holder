@@ -1,10 +1,9 @@
 import './App.css'
-import Login from './public/Login'
 
 function App() {
   return (
     <>
-      <Login />
+     <h1>Welcome to Be Holder</h1>
     </>
   )
 }
