@@ -1,19 +1,35 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import AuthService from "../services/auth.service";
 
 const Login = () => { 
 
+    //Todo: add a error message if the login fails
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     function onChangeEmail(e) {
         setEmail(e.target.value);
-        console.log(email);
     }
 
     function onChangePassword(e) {
         setPassword(e.target.value);
-        console.log(password);
+    }
+
+    async function onSubmit(e) {
+        e.preventDefault();
+        const authApi = new AuthService();
+        await authApi.doLogin(email, password).then(
+            () => {
+                navigate("/home");
+            },
+            (error) => {
+                console.error(error);
+                alert("Invalid email or password");
+            }
+        )
+        
     }
 
   return (
@@ -64,7 +80,7 @@ const Login = () => {
                                 </div>
                             </div>
                             <div className="d-grid">
-                                <button type="submit" className="btn btn-gray-800">Sign in</button>
+                                <button type="submit" className="btn btn-gray-800" onClick={onSubmit}>Sign in</button>
                             </div>
                         </form>
                         <div className="d-flex justify-content-center align-items-center mt-4">
