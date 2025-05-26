@@ -20,7 +20,7 @@ const Login = () => {
     async function onSubmit(e) {
         e.preventDefault();
         const authApi = new AuthService();
-        await authApi.doLogin(email, password).then(
+        await authApi.login(email, password).then(
             () => {
                 navigate("/home");
             },

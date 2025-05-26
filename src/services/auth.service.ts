@@ -1,12 +1,30 @@
+import axios from "axios";
 
+const API_URL = "http://localhost:3001";
 class AuthService {
 
-  private baseUrl: string = "https://api.example.com/auth";
+  async login(username, password) {
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, {
+        username,
+        password,
+      });
 
-  doLogin(email: string, password: string) {
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    })
+      localStorage.setItem("user", JSON.stringify(response.data));
+      
+      return response.data;
+    } catch (error) {
+      throw error.response ? error.response.data : new Error("Login failed");
+    }
+  }
+
+  logout() {
+    localStorage.removeItem("user");
+  }
+
+  getCurrentUser() {
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
   }
 }
 
